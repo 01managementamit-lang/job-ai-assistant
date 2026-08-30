@@ -11,7 +11,7 @@ export async function POST(req) {
       messages: [
         { 
           role: "system", 
-          content: "You are an HR Assistant. Convert the following resume text into a clean JSON object with these keys: fullName, email, phone, headline, skills, experience, education." 
+          content: "You are an HR Assistant. Extract info from the following resume text into a JSON object with these keys: fullName, email, phone, headline, skills, experience, education." 
         },
         { role: "user", content: text }
       ],
