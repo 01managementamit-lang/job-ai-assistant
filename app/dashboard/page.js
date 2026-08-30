@@ -59,11 +59,20 @@ export default function Dashboard() {
       <div className="w-64 bg-slate-900 text-white p-6 hidden md:block">
         <h2 className="text-2xl font-bold mb-10 text-blue-400">JobAI</h2>
         <nav className="space-y-4">
-          <div className="bg-blue-600 p-3 rounded-lg cursor-pointer">My Profile</div>
-          <div className="p-3 text-gray-400 cursor-not-allowed">My Resume (Soon)</div>
-          <div className="p-3 text-gray-400 cursor-not-allowed">Job Search (Soon)</div>
-          <div className="p-3 text-gray-400 cursor-not-allowed">Settings (Soon)</div>
-        </nav>
+  <button 
+    onClick={() => setView('profile')} 
+    className={`w-full text-left p-3 rounded-lg ${view === 'profile' ? 'bg-blue-600' : 'hover:bg-slate-800'}`}
+  >
+    My Profile
+  </button>
+  <button 
+    onClick={() => setView('resume')} 
+    className={`w-full text-left p-3 rounded-lg ${view === 'resume' ? 'bg-blue-600' : 'hover:bg-slate-800'}`}
+  >
+    My Resume
+  </button>
+  <div className="p-3 text-gray-500 cursor-not-allowed">Job Search (Soon)</div>
+</nav>
         <button onClick={() => signOut(auth)} className="mt-20 text-red-400 hover:text-red-300">Logout</button>
       </div>
 
