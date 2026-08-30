@@ -3,24 +3,23 @@ import { OpenAI } from 'openai';
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 export async function POST(req) {
-  const { url } = await req.json();
+  try {
+    const { text } = await req.json();
 
-  // For this phase, we are simulating the text extraction 
-  // and sending a prompt to OpenAI to structure the data.
-  // In a real production environment, we'd use a PDF library here.
-  
-  const completion = await openai.chat.completions.create({
-    messages: [{ 
-      role: "system", 
-      content: "You are a professional HR assistant. Extract info from resume text into JSON format: fullName, email, skills, experience, education, headline." 
-    },
-    { 
-      role: "user", 
-      content: `Extract info from this resume file: ${url}` 
-    }],
-    model: "gpt-3.5-turbo-1106",
-    response_format: { type: "json_object" },
-  });
+    const completion = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo-0125",
+      messages: [
+        { 
+          role: "system", 
+          content: "You are an HR Assistant. Convert the following resume text into a clean JSON object with these keys: fullName, email, phone, headline, skills, experience, education." 
+        },
+        { role: "user", content: text }
+      ],
+      response_format: { type: "json_object" },
+    });
 
-  return Response.json({ data: JSON.parse(completion.choices[0].message.content) });
+    return Response.json({ data: JSON.parse(completion.choices[0].message.content) });
+  } catch (error) {
+    return Response.json({ error: error.message }, { status: 500 });
+  }
 }
